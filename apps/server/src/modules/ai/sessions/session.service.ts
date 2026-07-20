@@ -3,6 +3,7 @@ import { SessionQuery } from "./session.query";
 import { tracer } from "../../../core/telemetry";
 import { AISession } from "./session.model";
 import { IAISession } from "./session.types";
+import { env } from "../../../core/config/env";
 
 export class SessionService {
     static async createSession(data: Partial<IAISession>) {
@@ -23,7 +24,7 @@ export class SessionService {
                     // Save telemetry
                     session.telemetry.traceId = spanContext.traceId;
                     session.telemetry.spanId = spanContext.spanId;
-                    session.telemetry.serviceName = "CuraScope";
+                    session.telemetry.serviceName = env.APP_NAME;
 
                     // Calculate latency
                     const latency = Date.now() - start;
