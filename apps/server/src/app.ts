@@ -6,6 +6,7 @@ import morgan from "morgan";
 import { errorMiddleware } from "./core/middleware/error.middleware";
 
 import routes from "./routes";
+import dashboardRoutes from "./modules/dashboard/dashboard.routes";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 app.use("/api/v1", routes);
+app.use("/api/v1/dashboard", dashboardRoutes);
 
 app.use(errorMiddleware);
 

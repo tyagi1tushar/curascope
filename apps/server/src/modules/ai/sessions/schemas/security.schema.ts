@@ -17,6 +17,11 @@ export const SecuritySchema = new Schema(
       type: [String],
       default: [],
     },
+
+    blocked: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     _id: false,

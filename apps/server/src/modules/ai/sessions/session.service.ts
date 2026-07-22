@@ -25,37 +25,35 @@ export class SessionService {
                     session.telemetry.traceId = spanContext.traceId;
                     session.telemetry.spanId = spanContext.spanId;
                     session.telemetry.serviceName = env.APP_NAME;
+                    
+                    const gatewayLatency = session.performance.latency ?? 0;
 
-                    // Calculate latency
-                    const latency = Date.now() - start;
+                    await session.save();
 
-                    session.performance.latency = latency;
+                    const mongoDuration = Date.now() - start;
 
-                    // Add span attributes
-                    // Add rich business attributes to the OpenTelemetry span.
-                    // These attributes make AI requests searchable and filterable in SigNoz.
                     span.setAttributes({
-                        // AI Request
                         "ai.provider": session.request.provider,
                         "ai.model": session.request.model,
                         "ai.prompt.length": session.request.prompt.length,
 
-                        // Performance
-                        "ai.latency.ms": latency,
+                        "db.system": "mongodb",
+                        "db.collection": "AISession",
+                        "db.operation": "insert",
+                        "db.operation.duration.ms": mongoDuration,
+
                         "ai.tokens.input": session.performance.tokens?.input ?? 0,
                         "ai.tokens.output": session.performance.tokens?.output ?? 0,
                         "ai.tokens.total": session.performance.tokens?.total ?? 0,
                         "ai.cost.estimated": session.performance.estimatedCost ?? 0,
 
-                        // Security
                         "security.score": session.security.score,
                         "security.risk": session.security.risk,
 
-                        // Telemetry
                         "session.id": session._id.toString(),
                     });
-                    
-                    await session.save();
+
+                    span.setAttribute("db.operation.duration.ms", mongoDuration);
 
                     span.addEvent("AI session stored in MongoDB");
 

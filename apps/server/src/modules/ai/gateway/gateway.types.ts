@@ -25,11 +25,26 @@ export interface ProviderResponse {
 
 export interface ChatResponse {
   text: string;
-  provider: AIProvider;
+  provider: string;
   model: string;
+
   latency: number;
-  tokens: TokenUsage;
+
+  tokens: {
+    input: number;
+    output: number;
+    total: number;
+  };
+
   estimatedCost: number;
+
+  security: {
+    score: number;
+    risk: string;
+    findings: string[];
+  };
+
   traceId: string;
+
   sessionId: string;
 }

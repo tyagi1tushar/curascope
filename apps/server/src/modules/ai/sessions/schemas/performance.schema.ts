@@ -7,6 +7,11 @@ export const PerformanceSchema = new Schema(
       default: 0,
     },
 
+    providerLatency: {
+      type: Number,
+      default: 0,
+    },
+
     tokens: {
       input: {
         type: Number,

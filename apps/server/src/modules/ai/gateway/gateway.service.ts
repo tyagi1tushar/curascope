@@ -8,6 +8,8 @@ import { CostEstimator } from "./pricing";
 import { PromptScanner } from "./security";
 import { ChatRequest, ChatResponse } from "./gateway.types";
 
+import { aiLogger } from "./gateway.logger";
+
 import {
     aiCostCounter,
     aiErrorsCounter,
@@ -22,8 +24,37 @@ export class GatewayService {
         return tracer.startActiveSpan("ai.chat", async (span) => {
             const start = Date.now();
 
+            const timeline: {
+                name: string;
+                timestamp: Date;
+            }[] = [];
+
+            const recordEvent = (name: string) => {
+                const timestamp = new Date();
+
+                timeline.push({
+                    name,
+                    timestamp,
+                });
+
+                span.addEvent(name, {
+                    timestamp: timestamp.toISOString(),
+                });
+            };
+
+            recordEvent("Request received");
+
+            aiLogger.info({
+                event: "ai.request.started",
+                provider: request.provider,
+                model: request.model,
+                promptLength: request.prompt.length,
+            });
+
             try {
                 const security = PromptScanner.scan(request.prompt);
+
+                recordEvent("Prompt scanned");
 
                 span.setAttributes({
                     "ai.provider": request.provider,
@@ -33,11 +64,24 @@ export class GatewayService {
                     "security.findings.count": security.findings.length,
                 });
 
-                span.addEvent("Security scan completed");
+                recordEvent("Security scan completed");
+
+                aiLogger.info({
+                    event: "ai.security.scan",
+                    score: security.score,
+                    risk: security.risk,
+                    findings: security.findings,
+                });
+
+                const providerName =
+                    request.provider.charAt(0).toUpperCase() +
+                    request.provider.slice(1);
+
+                recordEvent(`${providerName} called`);
 
                 const providerResponse = await GeminiProvider.generate(request);
 
-                span.addEvent("Provider response received");
+                recordEvent("Response received");
 
                 const latency = Date.now() - start;
 
@@ -48,38 +92,89 @@ export class GatewayService {
                     providerResponse.tokens.output
                 );
 
+                recordEvent("Cost estimated");
+
+                recordEvent("Session stored");
+
                 const session = await SessionService.createSession({
                     request: {
                         prompt: request.prompt,
                         provider: request.provider,
                         model: request.model,
                     },
+
                     response: {
                         text: providerResponse.text,
                         status: "success",
                     },
+
                     performance: {
                         latency,
                         tokens: providerResponse.tokens,
                         estimatedCost,
                     },
+
                     security: {
                         score: security.score,
                         risk: security.risk,
                         findings: security.findings,
                     },
+
+                    events: timeline,
                 });
 
-                span.addEvent("Session persisted");
+                aiLogger.info({
+                    event: "ai.request.completed",
+
+                    traceId: span.spanContext().traceId,
+                    spanId: span.spanContext().spanId,
+
+                    sessionId: session._id.toString(),
+
+                    provider: request.provider,
+                    model: request.model,
+
+                    duration: latency,
+
+                    inputTokens: providerResponse.tokens.input,
+                    outputTokens: providerResponse.tokens.output,
+                    totalTokens: providerResponse.tokens.total,
+
+                    estimatedCost,
+
+                    securityRisk: security.risk,
+
+                    status: "success",
+                });
 
                 span.setAttributes({
+                    // Provider
+                    "ai.provider": request.provider,
+                    "ai.model": request.model,
+
+                    // Prompt
+                    "ai.prompt.length": request.prompt.length,
+
+                    // Performance
                     "ai.latency.ms": latency,
                     "ai.tokens.input": providerResponse.tokens.input,
                     "ai.tokens.output": providerResponse.tokens.output,
                     "ai.tokens.total": providerResponse.tokens.total,
                     "ai.cost.estimated": estimatedCost,
+
+                    // Security
+                    "security.score": security.score,
+                    "security.risk": security.risk,
+                    "security.findings.count": security.findings.length,
+
+                    // Session
                     "session.id": session._id.toString(),
+
+                    // Response
+                    "response.status": "success",
                 });
+
+                span.addEvent("Request completed");
 
                 span.setStatus({
                     code: SpanStatusCode.OK,
@@ -114,16 +209,38 @@ export class GatewayService {
                     text: providerResponse.text,
                     provider: request.provider,
                     model: request.model,
+
                     latency,
+
                     tokens: providerResponse.tokens,
+
                     estimatedCost,
+
+                    security: {
+                        score: security.score,
+                        risk: security.risk,
+                        findings: security.findings,
+                    },
+
                     traceId: span.spanContext().traceId,
+
                     sessionId: session._id.toString(),
                 };
             } catch (error) {
                 aiErrorsCounter.add(1, {
                     provider: request.provider,
                     model: request.model,
+                });
+
+                aiLogger.error({
+                    event: "ai.request.failed",
+
+                    traceId: span.spanContext().traceId,
+
+                    provider: request.provider,
+                    model: request.model,
+
+                    error: error instanceof Error ? error.message : "Unknown error",
                 });
 
                 span.recordException(error as Error);

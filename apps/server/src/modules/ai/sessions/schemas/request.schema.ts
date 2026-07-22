@@ -26,6 +26,16 @@ export const RequestSchema = new Schema(
       type: String,
       required: true,
     },
+
+    temperature: {
+      type: Number,
+      default: 0,
+    },
+
+    maxTokens: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     _id: false,

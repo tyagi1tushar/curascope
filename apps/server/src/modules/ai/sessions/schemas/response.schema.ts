@@ -12,6 +12,12 @@ export const ResponseSchema = new Schema(
       enum: ["success", "error"],
       default: "success",
     },
+
+    finishReason: {
+      type: String,
+      default: "",
+    },
+
   },
   {
     _id: false,
