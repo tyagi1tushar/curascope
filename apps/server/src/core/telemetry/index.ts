@@ -1,3 +1,4 @@
 export * from "./instrumentation";
 export * from "./tracer";
-export * from "./metrics";
+import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
+import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";

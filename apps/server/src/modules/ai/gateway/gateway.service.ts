@@ -7,17 +7,16 @@ import { GeminiProvider } from "./providers";
 import { CostEstimator } from "./pricing";
 import { PromptScanner } from "./security";
 import { ChatRequest, ChatResponse } from "./gateway.types";
-
-import { aiLogger } from "./gateway.logger";
-
+import { observability } from "../../../core/telemetry/observability";
 import {
+    aiRequestsCounter,
+    aiLatencyHistogram,
+    aiInputTokensCounter,
+    aiOutputTokensCounter,
     aiCostCounter,
     aiErrorsCounter,
-    aiInputTokensCounter,
-    aiLatencyHistogram,
-    aiOutputTokensCounter,
-    aiRequestsCounter,
-} from "../../../core/telemetry";
+    aiSecurityCounter,
+} from "../../../core/telemetry/metrics";
 
 export class GatewayService {
     static async chat(request: ChatRequest): Promise<ChatResponse> {
@@ -44,8 +43,7 @@ export class GatewayService {
 
             recordEvent("Request received");
 
-            aiLogger.info({
-                event: "ai.request.started",
+            observability.info("ai.request.received", {
                 provider: request.provider,
                 model: request.model,
                 promptLength: request.prompt.length,
@@ -53,6 +51,12 @@ export class GatewayService {
 
             try {
                 const security = PromptScanner.scan(request.prompt);
+
+                aiSecurityCounter.add(1, {
+                    risk: security.risk,
+                    provider: request.provider,
+                    model: request.model,
+                });
 
                 recordEvent("Prompt scanned");
 
@@ -66,11 +70,10 @@ export class GatewayService {
 
                 recordEvent("Security scan completed");
 
-                aiLogger.info({
-                    event: "ai.security.scan",
+                observability.info("security.scan.completed", {
                     score: security.score,
                     risk: security.risk,
-                    findings: security.findings,
+                    findings: security.findings.length,
                 });
 
                 const providerName =
@@ -79,11 +82,23 @@ export class GatewayService {
 
                 recordEvent(`${providerName} called`);
 
+                observability.info("provider.request.started", {
+                    provider: request.provider,
+                    model: request.model,
+                });
+
                 const providerResponse = await GeminiProvider.generate(request);
 
-                recordEvent("Response received");
-
                 const latency = Date.now() - start;
+
+                observability.info("provider.response.received", {
+                    latency,
+                    inputTokens: providerResponse.tokens.input,
+                    outputTokens: providerResponse.tokens.output,
+                    totalTokens: providerResponse.tokens.total,
+                });
+
+                recordEvent("Response received");
 
                 const estimatedCost = CostEstimator.estimate(
                     request.provider,
@@ -123,54 +138,35 @@ export class GatewayService {
                     events: timeline,
                 });
 
-                aiLogger.info({
-                    event: "ai.request.completed",
-
-                    traceId: span.spanContext().traceId,
-                    spanId: span.spanContext().spanId,
-
+                observability.info("database.session.saved", {
                     sessionId: session._id.toString(),
+                });
 
+                observability.info("ai.request.completed", {
+                    sessionId: session._id.toString(),
                     provider: request.provider,
                     model: request.model,
-
-                    duration: latency,
-
+                    latency,
+                    estimatedCost,
                     inputTokens: providerResponse.tokens.input,
                     outputTokens: providerResponse.tokens.output,
                     totalTokens: providerResponse.tokens.total,
-
-                    estimatedCost,
-
                     securityRisk: security.risk,
-
-                    status: "success",
                 });
 
                 span.setAttributes({
-                    // Provider
                     "ai.provider": request.provider,
                     "ai.model": request.model,
-
-                    // Prompt
                     "ai.prompt.length": request.prompt.length,
-
-                    // Performance
                     "ai.latency.ms": latency,
                     "ai.tokens.input": providerResponse.tokens.input,
                     "ai.tokens.output": providerResponse.tokens.output,
                     "ai.tokens.total": providerResponse.tokens.total,
                     "ai.cost.estimated": estimatedCost,
-
-                    // Security
                     "security.score": security.score,
                     "security.risk": security.risk,
                     "security.findings.count": security.findings.length,
-
-                    // Session
                     "session.id": session._id.toString(),
-
-                    // Response
                     "response.status": "success",
                 });
 
@@ -180,14 +176,19 @@ export class GatewayService {
                     code: SpanStatusCode.OK,
                 });
 
+                console.log("Recording ai.requests");
+
                 aiRequestsCounter.add(1, {
                     provider: request.provider,
                     model: request.model,
+                    risk: security.risk,
+                    status: "success",
                 });
 
                 aiLatencyHistogram.record(latency, {
                     provider: request.provider,
                     model: request.model,
+                    risk: security.risk,
                 });
 
                 aiInputTokensCounter.add(providerResponse.tokens.input, {
@@ -203,6 +204,7 @@ export class GatewayService {
                 aiCostCounter.add(estimatedCost, {
                     provider: request.provider,
                     model: request.model,
+                    risk: security.risk,
                 });
 
                 return {
@@ -232,14 +234,15 @@ export class GatewayService {
                     model: request.model,
                 });
 
-                aiLogger.error({
-                    event: "ai.request.failed",
-
-                    traceId: span.spanContext().traceId,
-
+                aiRequestsCounter.add(1, {
                     provider: request.provider,
                     model: request.model,
+                    status: "failed",
+                });
 
+                observability.error("ai.request.failed", {
+                    provider: request.provider,
+                    model: request.model,
                     error: error instanceof Error ? error.message : "Unknown error",
                 });
 

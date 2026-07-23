@@ -16,3 +16,18 @@ body {
   background: #0b1020;
   color: white;
 }
+
+@keyframes flow {
+  0% {
+    left: 0%;
+  }
+
+  100% {
+    left: 100%;
+    transform: translate(-100%, -50%);
+  }
+}
+
+.animate-flow {
+  animation: flow 2s linear infinite;
+}

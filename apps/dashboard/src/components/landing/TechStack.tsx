@@ -55,7 +55,7 @@ export function TechStack() {
                         Technology Stack
                     </p>
 
-                    <h2 className="mt-5 text-4xl font-bold">
+                    <h2 className="mt-5 text-3xl font-semibold">
                         Built with modern developer tools
                     </h2>
 

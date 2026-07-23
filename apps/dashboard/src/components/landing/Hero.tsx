@@ -18,23 +18,22 @@ export function Hero() {
                 <div>
 
                     <h1 className="mt-4 text-6xl font-bold leading-tight">
-                        AI Gateway &
+                        AI Gateway
                         <br />
                         Observability Platform
                     </h1>
 
                     <p className="mt-6 text-xl leading-8 text-slate-400">
-                        Secure, observe, and analyze every AI request with integrated
-                        prompt security, OpenTelemetry tracing, SigNoz observability, and
-                        real-time analytics.
+                        Real-time monitoring of AI requests, security posture,
+                        cost analysis, OpenTelemetry traces and AI performance.
                     </p>
 
                     <div className="mt-10 flex flex-wrap gap-4">
                         <Link
                             to="/dashboard"
-                            className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-7 py-4 font-semibold text-slate-950 transition hover:bg-cyan-400"
+                            className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-7 py-4 font-bold text-slate-950 transition hover:bg-cyan-400"
                         >
-                            Launch Dashboard
+                            See Observability
 
                             <ArrowRight size={18} />
                         </Link>

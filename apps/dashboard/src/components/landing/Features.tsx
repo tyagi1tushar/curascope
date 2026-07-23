@@ -48,7 +48,7 @@ export function Features() {
             <div className="mb-14 text-center">
             <p className="text-cyan-400 font-bold text-4xl">Features</p>
 
-                <h2 className="mt-5 text-4xl font-bold">
+                <h2 className="mt-5 text-3xl font-semibold">
                     Everything you need to observe AI systems
                 </h2>
 

@@ -39,7 +39,7 @@ export function Observability() {
                         Observability
                     </p>
 
-                    <h2 className="mt-5 text-4xl font-bold">
+                    <h2 className="mt-5 text-3xl font-semibold">
                         Built for AI operations
                     </h2>
 

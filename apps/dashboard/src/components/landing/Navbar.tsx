@@ -11,30 +11,39 @@ export function Navbar() {
           CuraScope
         </Link>
 
-        <nav className="hidden items-center gap-8 text-medium text-slate-400 md:flex">
-          <a href="#features" className="hover:text-white transition">
+        <nav className="hidden items-center gap-12 text-medium text-slate-400 md:flex">
+          <a href="#features" className="hover:text-cyan-400 hover:font-semibold transition">
             Features
           </a>
 
-          <a href="#architecture" className="hover:text-white transition">
+          <a href="#architecture" className="hover:text-cyan-400 hover:font-semibold transition">
             Architecture
           </a>
 
-          <a href="#observability" className="hover:text-white transition">
+          <a href="#observability" className="hover:text-cyan-400 hover:font-semibold transition">
             Observability
           </a>
 
-          <a href="#tech-stack" className="hover:text-white transition">
+          <a href="#tech-stack" className="hover:text-cyan-400 hover:font-semibold transition">
             Tech Stack
           </a>
         </nav>
 
-        <Link
-          to="/dashboard"
-          className="rounded-lg bg-cyan-500 px-4 py-2 text-medium font-medium text-slate-950 transition hover:bg-cyan-400"
-        >
-          Launch Dashboard
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link
+            to="/dashboard"
+            className="text-slate-300 transition hover:text-cyan-400 hover:font-semibold"
+          >
+            Dashboard
+          </Link>
+
+          <Link
+            to="/chat"
+            className="rounded-lg bg-cyan-500 px-4 py-2 font-medium text-slate-950 transition hover:bg-cyan-400"
+          >
+            Chat
+          </Link>
+        </div>
       </div>
     </header>
   );

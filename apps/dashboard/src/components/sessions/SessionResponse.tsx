@@ -24,7 +24,7 @@ export function SessionResponse({ response }: Props) {
       <div className="mb-4 flex items-center justify-between">
 
         <h3 className="text-lg font-semibold">
-          AI Response
+          Generated Response
         </h3>
 
         <button
