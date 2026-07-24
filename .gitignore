@@ -1,1 +1,46 @@
-node_modules
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+coverage/
+.turbo/
+
+# Vite
+vite.config.ts.timestamp-*
+*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+
+# Temporary
+tmp/
+temp/
+.cache/
