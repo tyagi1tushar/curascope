@@ -49,14 +49,14 @@ const nodes = [
 function HorizontalConnector() {
     return (
         <div className="flex items-center">
-            <div className="relative w-10">
+            <div className="relative w-6">
                 <div className="h-px bg-cyan-400/40" />
 
                 <div className="absolute top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-cyan-400 animate-pulse" />
             </div>
 
             <ArrowRight
-                size={16}
+                size={12}
                 className="text-cyan-400"
             />
         </div>
@@ -95,7 +95,7 @@ export function Architecture() {
 
                 <div className="relative mt-20 flex flex-col items-center gap-12">
 
-                    <div className="flex flex-wrap justify-center gap-8">
+                    <div className="hidden lg:flex justify-center items-center gap-5">
 
                         <ArchitectureNode {...nodes[0]} />
                         <HorizontalConnector />
@@ -106,7 +106,9 @@ export function Architecture() {
                         <ArchitectureNode {...nodes[2]} />
                         <HorizontalConnector />
 
-                        <ArchitectureNode {...nodes[3]} />
+                        <div className="scale-110">
+                            <ArchitectureNode {...nodes[3]} />
+                        </div>
 
                     </div>
 
@@ -129,7 +131,7 @@ export function Architecture() {
 
                     <div className="relative h-11 w-px bg-cyan-700">
 
-                        <div className="absolute left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-cyan-400 animate-bounce" />
+                        <div className="absolute left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-cyan-400 animate-pulse" />
 
                     </div>
 
