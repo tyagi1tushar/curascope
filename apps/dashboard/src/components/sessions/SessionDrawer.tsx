@@ -28,7 +28,7 @@ function MetricCard({
     return (
         <div className="rounded-xl border border-slate-800 bg-slate-950 p-4">
 
-            <p className="text-xs uppercase tracking-wide text-slate-500">
+            <p className="text-xs uppercase tracking-wide text-slate-300">
                 {label}
             </p>
 
@@ -130,12 +130,41 @@ export function SessionDrawer({
 
                         <Card>
 
-                            <p className="text-sm text-slate-400">
-                                Prompt
-                            </p>
+                            <div className="flex items-center justify-between">
 
-                            <p className="mt-3 whitespace-pre-wrap">
-                                {data.request.prompt}
+                                <div>
+
+                                    <h3 className="font-semibold">
+                                        Prompt
+                                    </h3>
+
+                                    <p className="mt-1 text-sm text-slate-400">
+                                        User input sent to the AI Gateway
+                                    </p>
+
+                                </div>
+
+                                <button
+                                    onClick={() =>
+                                        navigator.clipboard.writeText(data.request.prompt)
+                                    }
+                                    className="rounded-lg bg-slate-800 p-2 transition hover:bg-slate-700"
+                                >
+                                    <Copy size={16} />
+                                </button>
+
+                            </div>
+
+                            <div className="mt-5 rounded-xl border border-slate-800 bg-slate-950 p-4">
+
+                                <p className="whitespace-pre-wrap leading-7">
+                                    {data.request.prompt}
+                                </p>
+
+                            </div>
+
+                            <p className="mt-3 text-right text-xs text-slate-500">
+                                {data.request.prompt.length} characters
                             </p>
 
                         </Card>
