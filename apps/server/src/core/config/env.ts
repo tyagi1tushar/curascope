@@ -14,7 +14,7 @@ const envSchema = z.object({
 
   OTEL_EXPORTER_OTLP_ENDPOINT: z.string().url(),
 
-  OTEL_EXPORTER_OTLP_HEADERS: z.string().min(1),
+  OTEL_EXPORTER_OTLP_HEADERS: z.string().default(""),
 
   APP_NAME: z.string(),
 });

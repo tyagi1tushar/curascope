@@ -12,12 +12,16 @@ import { logger } from "../logger/logger";
 import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
 import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs/build/src/platform/node/export/BatchLogRecordProcessor";
 
-const headers = {
-  "signoz-access-token": env.OTEL_EXPORTER_OTLP_HEADERS.replace(
-    "signoz-access-token=",
-    ""
-  ),
-};
+const headers =
+  env.OTEL_EXPORTER_OTLP_HEADERS?.trim()
+    ? {
+        "signoz-access-token":
+          env.OTEL_EXPORTER_OTLP_HEADERS.replace(
+            "signoz-access-token=",
+            ""
+          ),
+      }
+    : undefined;
 
 const traceExporter = new OTLPTraceExporter({
   url: `${env.OTEL_EXPORTER_OTLP_ENDPOINT}/v1/traces`,
