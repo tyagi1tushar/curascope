@@ -91,6 +91,8 @@ export class GatewayService {
 
                 const latency = Date.now() - start;
 
+                console.log("Gateway latency:", latency, "ms");
+
                 observability.info("provider.response.received", {
                     latency,
                     inputTokens: providerResponse.tokens.input,
