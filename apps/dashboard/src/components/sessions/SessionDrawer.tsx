@@ -290,13 +290,23 @@ export function SessionDrawer({
                                 <div>
 
                                     <h3 className="font-semibold">
-                                        Telemetry
+                                        OpenTelemetry
                                     </h3>
 
                                     <p className="mt-1 text-sm text-slate-400">
-                                        OpenTelemetry trace information
+                                        Observability metadata
                                     </p>
 
+                                </div>
+
+                                <div>
+                                    <p className="text-sm text-slate-400">
+                                        Export Status
+                                    </p>
+
+                                    <span className="mt-1 inline-flex rounded-full bg-emerald-500/10 px-2 py-1 text-xs font-medium text-emerald-400">
+                                        Exported
+                                    </span>
                                 </div>
 
                                 <button
@@ -340,9 +350,13 @@ export function SessionDrawer({
                                         Trace ID
                                     </p>
 
-                                    <p className="mt-1 break-all font-mono text-xs text-slate-300">
-                                        {data.telemetry.traceId}
-                                    </p>
+                                    <div className="mt-2 rounded-lg border border-slate-800 bg-slate-950 p-3">
+
+                                        <p className="break-all font-mono text-xs text-slate-300">
+                                            {data.telemetry.traceId}
+                                        </p>
+
+                                    </div>
 
                                 </div>
 
@@ -352,9 +366,13 @@ export function SessionDrawer({
                                         Span ID
                                     </p>
 
-                                    <p className="mt-1 break-all font-mono text-xs text-slate-300">
-                                        {data.telemetry.spanId}
-                                    </p>
+                                    <div className="mt-2 rounded-lg border border-slate-800 bg-slate-950 p-3">
+
+                                        <p className="break-all font-mono text-xs text-slate-300">
+                                            {data.telemetry.spanId}
+                                        </p>
+
+                                    </div>
 
                                 </div>
 
@@ -368,15 +386,7 @@ export function SessionDrawer({
                                     </p>
                                 </div>
 
-                                <div>
-                                    <p className="text-sm text-slate-400">
-                                        Export Status
-                                    </p>
 
-                                    <span className="mt-1 inline-flex rounded-full bg-emerald-500/10 px-2 py-1 text-xs font-medium text-emerald-400">
-                                        Exported
-                                    </span>
-                                </div>
 
                             </div>
 
@@ -388,7 +398,7 @@ export function SessionDrawer({
                                     }
                                     className="rounded-lg bg-slate-800 px-4 py-2 text-sm transition hover:bg-slate-700"
                                 >
-                                    Copy Trace
+                                    Copy Trace ID
                                 </button>
 
                                 {signozTraceUrl && (
@@ -396,7 +406,7 @@ export function SessionDrawer({
                                         href={signozTraceUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="rounded-lg bg-sky-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-sky-500"
+                                        className="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-cyan-500"
                                     >
                                         View Trace in SigNoz ↗
                                     </a>
