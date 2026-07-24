@@ -46,6 +46,23 @@ const nodes = [
     },
 ];
 
+function HorizontalConnector() {
+    return (
+        <div className="flex items-center">
+            <div className="relative w-10">
+                <div className="h-px bg-cyan-400/40" />
+
+                <div className="absolute top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-cyan-400 animate-pulse" />
+            </div>
+
+            <ArrowRight
+                size={16}
+                className="text-cyan-400"
+            />
+        </div>
+    );
+}
+
 export function Architecture() {
     return (
         <section
@@ -81,8 +98,14 @@ export function Architecture() {
                     <div className="flex flex-wrap justify-center gap-8">
 
                         <ArchitectureNode {...nodes[0]} />
+                        <HorizontalConnector />
+
                         <ArchitectureNode {...nodes[1]} />
+                        <HorizontalConnector />
+
                         <ArchitectureNode {...nodes[2]} />
+                        <HorizontalConnector />
+
                         <ArchitectureNode {...nodes[3]} />
 
                     </div>
@@ -104,13 +127,16 @@ export function Architecture() {
 
                     </div>
 
-                    <div className="flex justify-center">
-                        <div className="h-11 w-px bg-gradient-to-b from-cyan-400 via-cyan-500 to-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.6)]" />
+                    <div className="relative h-11 w-px bg-cyan-700">
+
+                        <div className="absolute left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-cyan-400 animate-bounce" />
+
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-8">
 
                         <ArchitectureNode {...nodes[5]} />
+                        <HorizontalConnector />
                         <ArchitectureNode {...nodes[6]} />
 
                     </div>
@@ -119,11 +145,11 @@ export function Architecture() {
 
                 <div className="mt-20 grid gap-4 md:grid-cols-5">
 
-                    <Feature text="Session Stored" />
-                    <Feature text="Trace Exported" />
-                    <Feature text="Metrics Recorded" />
-                    <Feature text="Logs Correlated" />
-                    <Feature text="Security Scanned" />
+                    <Feature text="AI Request" />
+                    <Feature text="Risk Analysis" />
+                    <Feature text="Session Storage" />
+                    <Feature text="Telemetry Export" />
+                    <Feature text="Observability" />
 
                 </div>
 
