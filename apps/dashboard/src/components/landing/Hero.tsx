@@ -18,9 +18,9 @@ export function Hero() {
                 <div>
 
                     <h1 className="mt-4 text-6xl font-bold leading-tight">
-                        AI Gateway
+                        Secure, Observe and Debug 
                         <br />
-                        Observability Platform
+                        Every AI Request
                     </h1>
 
                     <p className="mt-6 text-xl leading-8 text-slate-400">
