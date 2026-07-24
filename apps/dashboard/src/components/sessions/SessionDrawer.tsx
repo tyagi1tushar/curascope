@@ -18,6 +18,28 @@ type Props = {
     onClose: () => void;
 };
 
+function MetricCard({
+    label,
+    value,
+}: {
+    label: string;
+    value: string;
+}) {
+    return (
+        <div className="rounded-xl border border-slate-800 bg-slate-950 p-4">
+
+            <p className="text-xs uppercase tracking-wide text-slate-500">
+                {label}
+            </p>
+
+            <p className="mt-2 text-2xl font-bold">
+                {value}
+            </p>
+
+        </div>
+    );
+}
+
 export function SessionDrawer({
     sessionId,
     onClose,
@@ -77,6 +99,34 @@ export function SessionDrawer({
                                 risk={data.security.risk}
                             />
                         </div>
+
+                        <Card>
+
+                            <div className="grid grid-cols-2 gap-4">
+
+                                <MetricCard
+                                    label="Latency"
+                                    value={formatLatency(data.performance.latency)}
+                                />
+
+                                <MetricCard
+                                    label="Tokens"
+                                    value={data.performance.tokens.total.toString()}
+                                />
+
+                                <MetricCard
+                                    label="Cost"
+                                    value={formatCost(data.performance.estimatedCost)}
+                                />
+
+                                <MetricCard
+                                    label="Risk"
+                                    value={data.security.risk.toUpperCase()}
+                                />
+
+                            </div>
+
+                        </Card>
 
                         <Card>
 

@@ -31,7 +31,7 @@ export function Footer() {
             className="flex items-center gap-2 rounded-lg bg-cyan-500 px-4 py-2 font-medium text-slate-950 transition hover:bg-cyan-400"
           >
             <ExternalLink size={18} />
-            Launch Dashboard
+            Dashboard
           </a>
         </div>
       </div>
