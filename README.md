@@ -23,11 +23,11 @@ Observe Every Prompt. Trace Every Token. Secure Every Request.
 
 ###  Live Demo
 
- Frontend: https://curascope.vercel.app
- Backend API: https://curascope.onrender.com
- Demo Video: <YouTube or Loom link>
+- Frontend: https://curascope.vercel.app
+- Backend API: https://curascope.onrender.com
+- Demo Video: <YouTube or Loom link>
 
-> **Note**
+ **Note**
 
 > The public deployment includes the CuraScope frontend and AI Gateway.
 > For the demo, OpenTelemetry telemetry is exported to a locally hosted SigNoz instance using Docker. This enables distributed traces, metrics, logs, dashboards, and alerts while keeping the public deployment lightweight.
