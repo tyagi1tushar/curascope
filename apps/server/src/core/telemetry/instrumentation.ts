@@ -10,7 +10,7 @@ import { metrics } from "@opentelemetry/api";
 import { env } from "../config/env";
 import { logger } from "../logger/logger";
 import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
-import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs/build/src/platform/node/export/BatchLogRecordProcessor";
+import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 
 const headers =
   env.OTEL_EXPORTER_OTLP_HEADERS?.trim()
