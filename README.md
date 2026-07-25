@@ -27,7 +27,7 @@ Observe Every Prompt. Trace Every Token. Secure Every Request.
 |----------|------|
 | 🌐 Frontend | https://curascope.vercel.app |
 | ⚙️ Backend API | https://curascope.onrender.com |
-| 🎥 Demo Video | *(Add YouTube or Loom link)* |
+| 🎥 Demo Video | https://youtu.be/B4IhZ51GhXA |
 
 > [!NOTE]
 > **Deployment Architecture**
@@ -35,6 +35,29 @@ Observe Every Prompt. Trace Every Token. Secure Every Request.
 > The public deployment includes the **CuraScope Frontend** (Vercel) and the **AI Gateway Backend** (Render).
 >
 > For the demonstration, OpenTelemetry telemetry is exported to a **Docker-hosted SigNoz** instance, showcasing end-to-end **distributed tracing, metrics, logs, dashboards, and alerting**. This keeps the public deployment lightweight while demonstrating the complete observability pipeline.
+
+---
+
+# 📖 Technical Blog
+
+Want to dive deeper into the architecture and implementation of CuraScope?
+
+I documented the complete development journey, design decisions, OpenTelemetry instrumentation, SigNoz integration, and the challenges encountered while building the project.
+
+**📝 Read the full article on Medium:**
+
+🔗 **Building CuraScope: An AI Gateway with End-to-End Observability for Production AI Applications**  
+https://medium.com/@anjutushartyagi2810/building-curascope-an-ai-gateway-with-end-to-end-observability-for-production-ai-applications-639a01badab3
+
+The article covers:
+
+- AI Gateway architecture
+- OpenTelemetry instrumentation
+- SigNoz integration
+- Distributed tracing, metrics, and logs
+- Prompt security pipeline
+- Session management and observability
+- Design decisions and implementation challenges
 
 ---
 
