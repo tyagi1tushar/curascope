@@ -50,10 +50,12 @@ export function SessionDrawer({
 
     const { traceId, spanId } = data?.telemetry ?? {};
 
-    let signozTraceUrl = null;
+    const signozBaseUrl = import.meta.env.VITE_SIGNOZ_URL;
 
-    if (traceId && spanId) {
-        signozTraceUrl = `${import.meta.env.VITE_SIGNOZ_URL}/trace/${traceId}?levelUp=0&levelDown=0&spanId=${spanId}`;
+    let signozTraceUrl: string | null = null;
+
+    if (signozBaseUrl && traceId && spanId) {
+        signozTraceUrl = `${signozBaseUrl}/trace/${traceId}?levelUp=0&levelDown=0&spanId=${spanId}`;
     }
     return (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-sm">
