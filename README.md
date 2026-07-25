@@ -828,3 +828,9 @@ CuraScope is built using several amazing open-source technologies.
 Special thanks to the open-source community for making production-grade AI infrastructure accessible to developers.
 
 ---
+
+## AI Usage Declaration
+
+AI assistants (ChatGPT) were used as a development aid for brainstorming, debugging, documentation, and technical guidance.
+
+The project was independently designed, implemented, integrated, and tested by me. All source code included in this repository was written, reviewed, and verified by me.
