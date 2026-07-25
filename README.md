@@ -23,12 +23,14 @@ Observe Every Prompt. Trace Every Token. Secure Every Request.
 
 ###  Live Demo
 
-### Live Demo
+ Frontend: https://curascope.vercel.app
+ Backend API: https://curascope.onrender.com
+ Demo Video: <YouTube or Loom link>
 
-- Frontend: https://curascope.vercel.app
-- Backend API: https://curascope.onrender.com
-- Demo Video: <YouTube or Loom link>
+> **Note**
 
+> The public deployment includes the CuraScope frontend and AI Gateway.
+> For the demo, OpenTelemetry telemetry is exported to a locally hosted SigNoz instance using Docker. This enables distributed traces, metrics, logs, dashboards, and alerts while keeping the public deployment lightweight.
 
 </div>
 
@@ -247,6 +249,12 @@ flowchart LR
     METRIC --> ALERTS
 ```
 
+### Architecture Diagram
+
+<p align="center">
+  <img src="docs/images/architecture-diagram.png" width="900">
+</p>
+
 ---
 
 #  Request Lifecycle
@@ -289,6 +297,12 @@ Gateway-->>Dashboard: Response + Trace ID
 
 Dashboard->>SigNoz: View Trace
 ```
+
+### Request Flow
+
+<p align="center">
+  <img src="docs/images/request-flow.png" width="900">
+</p>
 
 ---
 
@@ -669,43 +683,53 @@ Response
 
 ## Landing Page
 
-> Add screenshot here
+<p align="center">
+  <img src="docs/images/landing-page.png" width="900">
+</p>
 
 ---
 
 ## AI Chat Page
 
-> Add screenshot here
+<p align="center">
+  <img src="docs/images/chat-page.png" width="900">
+</p>
 
 ---
 
 ## Dashboard
 
-> Add screenshot here
-
----
-
-## Session Explorer
-
-> Add screenshot here
+<p align="center">
+  <img src="docs/images/system-dashboard.png" width="900">
+</p>
 
 ---
 
 ## SigNoz Dashboard
 
-> Add screenshot here
+<p align="center">
+  <img src="docs/images/signoz-dashboard.png" width="900">
+</p>
 
 ---
 
 ## Distributed Trace
 
-> Add screenshot here
+<p align="center">
+  <img src="docs/images/trace.png" width="900">
+</p>
+
+<p align="center">
+  <img src="docs/images/trace1.png" width="900">
+</p>
 
 ---
 
 ## Alerting
 
-> Add screenshot here
+<p align="center">
+  <img src="docs/images/alerts.png" width="900">
+</p>
 
 ---
 
