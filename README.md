@@ -29,6 +29,8 @@ Observe Every Prompt. Trace Every Token. Secure Every Request.
 | ⚙️ Backend API | https://curascope.onrender.com |
 | 🎥 Demo Video | https://youtu.be/B4IhZ51GhXA |
 
+</div>
+
 > [!NOTE]
 > **Deployment Architecture**
 >
