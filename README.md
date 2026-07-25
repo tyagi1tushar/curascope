@@ -23,7 +23,11 @@ Observe Every Prompt. Trace Every Token. Secure Every Request.
 
 ###  Live Demo
 
-> **Coming Soon**
+### Live Demo
+
+- Frontend: https://curascope.vercel.app
+- Backend API: https://curascope.onrender.com
+- Demo Video: <YouTube or Loom link>
 
 
 </div>
@@ -32,7 +36,7 @@ Observe Every Prompt. Trace Every Token. Secure Every Request.
 
 #  Overview
 
-CuraScope is a production-ready AI Gateway designed to bring observability, security, and operational visibility to AI-powered applications.
+CuraScope is a AI Gateway for Production AI Applications designed to bring observability, security, and operational visibility to AI-powered applications.
 
 Instead of treating AI as a black box, CuraScope captures every request, traces every execution, records performance metrics, estimates AI cost, analyzes prompt security, and exports telemetry to SigNoz using OpenTelemetry.
 
@@ -47,6 +51,24 @@ Traditional monitoring platforms were built for microservices.
 Modern AI applications require visibility into prompts, token usage, latency, model behavior, AI costs, security risks, and end-to-end execution.
 
 CuraScope bridges this gap by combining an AI Gateway with production-grade observability built on OpenTelemetry and SigNoz.
+
+## Why CuraScope is Different
+
+Unlike traditional observability platforms,
+CuraScope understands AI-native concepts.
+
+It correlates:
+
+- Prompt
+- AI Response
+- Tokens
+- Estimated Cost
+- Security Score
+- Trace ID
+- Session Replay
+- Provider Metadata
+
+into a single debugging experience.
 
 #  Key Features
 

@@ -19,6 +19,14 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(morgan("dev"));
 
+app.get("/", (_req, res) => {
+    res.status(200).json({
+        name: "CuraScope API",
+        status: "healthy",
+        version: "1.0.0",
+    });
+});
+
 app.use("/api/v1", routes);
 app.use("/api/v1/dashboard", dashboardRoutes);
 
