@@ -12,7 +12,7 @@ const envSchema = z.object({
 
   GEMINI_API_KEY: z.string().min(1),
 
-  OTEL_EXPORTER_OTLP_ENDPOINT: z.string().url(),
+  OTEL_EXPORTER_OTLP_ENDPOINT: z.string().url().optional(),
 
   OTEL_EXPORTER_OTLP_HEADERS: z.string().default(""),
 

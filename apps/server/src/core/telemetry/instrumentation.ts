@@ -6,65 +6,65 @@ import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentation
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { metrics } from "@opentelemetry/api";
+import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
+import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 
 import { env } from "../config/env";
 import { logger } from "../logger/logger";
-import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
-import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
+
+const telemetryEnabled = !!env.OTEL_EXPORTER_OTLP_ENDPOINT;
 
 const headers =
   env.OTEL_EXPORTER_OTLP_HEADERS?.trim()
     ? {
-        "signoz-access-token":
-          env.OTEL_EXPORTER_OTLP_HEADERS.replace(
-            "signoz-access-token=",
-            ""
-          ),
+        "signoz-access-token": env.OTEL_EXPORTER_OTLP_HEADERS.replace(
+          "signoz-access-token=",
+          ""
+        ),
       }
     : undefined;
 
-const traceExporter = new OTLPTraceExporter({
-  url: `${env.OTEL_EXPORTER_OTLP_ENDPOINT}/v1/traces`,
-  headers,
-});
+const sdk = telemetryEnabled
+  ? new NodeSDK({
+      traceExporter: new OTLPTraceExporter({
+        url: `${env.OTEL_EXPORTER_OTLP_ENDPOINT}/v1/traces`,
+        headers,
+      }),
 
-const metricExporter = new OTLPMetricExporter({
-  url: `${env.OTEL_EXPORTER_OTLP_ENDPOINT}/v1/metrics`,
-  headers,
-});
+      metricReader: new PeriodicExportingMetricReader({
+        exporter: new OTLPMetricExporter({
+          url: `${env.OTEL_EXPORTER_OTLP_ENDPOINT}/v1/metrics`,
+          headers,
+        }),
+        exportIntervalMillis: 10000,
+      }),
 
-const logExporter = new OTLPLogExporter({
-  url: `${env.OTEL_EXPORTER_OTLP_ENDPOINT}/v1/logs`,
-  headers,
-});
+      logRecordProcessors: [
+        new BatchLogRecordProcessor({
+          exporter: new OTLPLogExporter({
+            url: `${env.OTEL_EXPORTER_OTLP_ENDPOINT}/v1/logs`,
+            headers,
+          }),
+        }),
+      ],
 
-const metricReader = new PeriodicExportingMetricReader({
-  exporter: metricExporter,
-  exportIntervalMillis: 10000,
-});
+      resource: resourceFromAttributes({
+        [SemanticResourceAttributes.SERVICE_NAME]: env.APP_NAME,
+        [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]:
+          env.NODE_ENV,
+      }),
 
-export const sdk = new NodeSDK({
-  traceExporter,
-  metricReader,
-
-  logRecordProcessors: [
-    new BatchLogRecordProcessor({
-      exporter: logExporter,
-    }),
-  ],
-
-  resource: resourceFromAttributes({
-    [SemanticResourceAttributes.SERVICE_NAME]: env.APP_NAME,
-    [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]:
-      env.NODE_ENV,
-  }),
-
-  instrumentations: [getNodeAutoInstrumentations()],
-});
+      instrumentations: [getNodeAutoInstrumentations()],
+    })
+  : null;
 
 export async function startTelemetry() {
-  try {
+  if (!sdk) {
+    logger.info("OpenTelemetry disabled");
+    return;
+  }
 
+  try {
     await sdk.start();
 
     console.log(
