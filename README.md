@@ -19,17 +19,17 @@ Observe Every Prompt. Trace Every Token. Secure Every Request.
 
 </p>
 
+</div>
+
 ---
 
-## 🚀 Live Demo
+## Live Demo
 
 | Resource | Link |
 |----------|------|
-| 🌐 Frontend | https://curascope.vercel.app |
-| ⚙️ Backend API | https://curascope.onrender.com |
-| 🎥 Demo Video | https://youtu.be/B4IhZ51GhXA |
-
-</div>
+| Frontend | https://curascope.vercel.app |
+| Backend API | https://curascope.onrender.com |
+| Demo Video | https://youtu.be/B4IhZ51GhXA |
 
 > [!NOTE]
 > **Deployment Architecture**
@@ -40,13 +40,13 @@ Observe Every Prompt. Trace Every Token. Secure Every Request.
 
 ---
 
-# 📖 Technical Blog
+# Technical Blog
 
 Want to dive deeper into the architecture and implementation of CuraScope?
 
 I documented the complete development journey, design decisions, OpenTelemetry instrumentation, SigNoz integration, and the challenges encountered while building the project.
 
-**📝 Read the full article on Medium:**
+** Read the full article on Medium:**
 
 🔗 **Building CuraScope: An AI Gateway with End-to-End Observability for Production AI Applications**  
 https://medium.com/@anjutushartyagi2810/building-curascope-an-ai-gateway-with-end-to-end-observability-for-production-ai-applications-639a01badab3
@@ -212,14 +212,14 @@ The platform automatically provides:
 ```mermaid
 flowchart LR
 
-    U[👤 User]
+    U[User]
 
     subgraph Frontend
         D[Dashboard]
         C[AI Playground]
     end
 
-    subgraph Gateway["🚀 CuraScope AI Gateway"]
+    subgraph Gateway["CuraScope AI Gateway"]
         API[Express API]
         SEC[Prompt Security]
         ROUTER[Request Router]
@@ -706,7 +706,7 @@ Response
 
 ---
 
-# 📸 Screenshots
+# Screenshots
 
 ## Landing Page
 
