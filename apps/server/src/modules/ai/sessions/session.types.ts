@@ -1,5 +1,6 @@
 export type AIProvider =
   | "gemini"
+  | "groq"
   | "openai"
   | "claude"
   | "grok"

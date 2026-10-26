@@ -3,7 +3,7 @@ import { SpanStatusCode } from "@opentelemetry/api";
 import { tracer } from "../../../core/telemetry";
 import { SessionService } from "../sessions/session.service";
 
-import { GeminiProvider } from "./providers";
+import { GroqProvider } from "./providers";
 import { CostEstimator } from "./pricing";
 import { PromptScanner } from "./security";
 import { ChatRequest, ChatResponse } from "./gateway.types";
@@ -52,6 +52,32 @@ export class GatewayService {
             try {
                 const security = PromptScanner.scan(request.prompt);
 
+                if (security.risk === "high") {
+                    const error = Object.assign(
+                        new Error("Prompt rejected by security policy"),
+                        {
+                            statusCode: 400,
+                            code: "PROMPT_SECURITY_REJECTED",
+                            security: {
+                                score: security.score,
+                                risk: security.risk,
+                                findings: security.findings,
+                            },
+                        }
+                    );
+
+                    span.setAttributes({
+                        "security.blocked": true,
+                        "security.score": security.score,
+                        "security.risk": security.risk,
+                        "security.findings.count": security.findings.length,
+                    });
+
+                    span.addEvent("Prompt rejected by security policy");
+
+                    throw error;
+                }
+
                 aiSecurityCounter.add(1, {
                     risk: security.risk,
                     provider: request.provider,
@@ -87,7 +113,7 @@ export class GatewayService {
                     model: request.model,
                 });
 
-                const providerResponse = await GeminiProvider.generate(request);
+                const providerResponse = await GroqProvider.generate(request);
 
                 const latency = Date.now() - start;
 

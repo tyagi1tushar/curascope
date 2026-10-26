@@ -9,7 +9,7 @@ type SecurityRule = {
 export class PromptScanner {
   private static readonly RULES: SecurityRule[] = [
     {
-      pattern: /ignore previous instructions|forget previous instructions|system prompt|jailbreak|bypass/i,
+      pattern: /\b(?:ignore|disregard|forget|override)\s+(?:(?:all|any|the)\s+)?(?:previous|prior|above|earlier)\s+(?:prompts?|instructions?|rules?)\b|\b(?:reveal|show|disclose|print|expose)\s+(?:the\s+)?(?:system\s+prompt|hidden\s+instructions?|configured\s+prompts?)\b|\bjailbreak\b|\bbypass\s+(?:the\s+)?(?:security|safety|instructions?|rules?)\b/i,
       finding: "Potential Prompt Injection",
       penalty: 35,
     },
@@ -43,9 +43,13 @@ export class PromptScanner {
 
     score = Math.max(score, 0);
 
+    const hasPromptInjection = findings.includes(
+      "Potential Prompt Injection"
+    );
+
     let risk: SecurityResult["risk"] = "low";
 
-    if (score < 50) {
+    if (hasPromptInjection || score < 50) {
       risk = "high";
     } else if (score < 80) {
       risk = "medium";

@@ -8,7 +8,7 @@ export interface SessionQuery {
     | "gemini"
     | "openai"
     | "claude"
-    | "grok"
+    | "groq"
     | "ollama"
     | "deepseek"
     | "other";

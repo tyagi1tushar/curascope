@@ -7,7 +7,7 @@ export const createSessionSchema = z.object({
     "gemini",
     "openai",
     "claude",
-    "grok",
+    "groq",
     "ollama",
     "deepseek",
     "other",

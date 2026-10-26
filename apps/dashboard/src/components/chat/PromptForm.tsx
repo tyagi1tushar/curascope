@@ -43,8 +43,8 @@ export function PromptForm({
                         onChange={(e) => onProviderChange(e.target.value)}
                         className="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2"
                     >
-                        <option value="gemini">
-                            Gemini
+                        <option value="groq">
+                            Groq
                         </option>
                     </select>
                 </div>
@@ -59,8 +59,8 @@ export function PromptForm({
                         onChange={(e) => onModelChange(e.target.value)}
                         className="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2"
                     >
-                        <option value="gemini-2.5-flash">
-                            gemini-2.5-flash
+                        <option value="openai/gpt-oss-20b">
+                            openai/gpt-oss-20b
                         </option>
                     </select>
                 </div>

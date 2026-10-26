@@ -6,9 +6,9 @@ type Pricing = {
 };
 
 const PRICING: Record<string, Pricing> = {
-  "gemini:gemini-2.5-flash": {
-    input: 0.3,
-    output: 2.5,
+  "groq:openai/gpt-oss-20b": {
+    input: 0.075,
+    output: 0.30,
   },
 };
 
@@ -22,7 +22,9 @@ export class CostEstimator {
     const pricing = PRICING[`${provider}:${model}`];
 
     if (!pricing) {
-      return 0;
+      throw new Error(
+        `Pricing unavailable for provider "${provider}" and model "${model}"`
+      );
     }
 
     const inputCost = (inputTokens / 1_000_000) * pricing.input;

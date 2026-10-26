@@ -14,7 +14,7 @@ export const RequestSchema = new Schema(
         "gemini",
         "openai",
         "claude",
-        "grok",
+        "groq",
         "ollama",
         "deepseek",
         "other",

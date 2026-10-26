@@ -10,7 +10,7 @@ const envSchema = z.object({
 
   MONGODB_URI: z.string().min(1),
 
-  GEMINI_API_KEY: z.string().min(1),
+ GROQ_API_KEY: z.string().min(1),
 
   OTEL_EXPORTER_OTLP_ENDPOINT: z.string().url().optional(),
 
